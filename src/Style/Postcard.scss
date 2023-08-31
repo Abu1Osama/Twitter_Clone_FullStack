@@ -1,0 +1,133 @@
+#postcard.postcard {
+  background-color: rgba(0, 0, 0, 0.4);
+  height: 100vh;
+  padding: 30px 0;
+  position: fixed;
+  width: 100%;
+  left: 0;
+  top: 0;
+  z-index: 9999;
+  .form {
+    background-color: rgba(255, 255, 255, 1);
+    width: 600px;
+    margin: auto;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    border-radius: 16px;
+    position: relative;
+    // padding-bottom: 80px;
+    // height: 95vh;
+    // height: 300px;
+    padding: 10px;
+    overflow: hidden;
+    .mid {
+        display: grid;
+        grid-template-columns: 20% 80%;
+        padding: 10px;
+      .img {
+        img {
+          width: 80px;
+          border-radius: 50%;
+        }
+      }
+      form{
+        display: flex;
+        flex-direction: column;
+        padding: 10px;
+        gap: 20px;
+        select{
+            border-radius: 9999px;
+            padding: 5px 20px ;
+            color:  rgb(29, 155, 240);
+            font-weight: bold;
+            border: 1px solid rgb(211, 210, 210);
+            &:hover{
+                background-color:  rgb(238, 248, 255);
+            }
+        }
+        textarea{
+            border: none;
+            outline: none;
+            &::placeholder{
+                font-size: 20px;
+                font-family: inherit;
+            }
+        }
+      }
+    }
+    .bottom{
+        border-top: 1px solid rgb(237, 233, 233);
+        padding: 10px;
+        text-align: right;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .bottom-img{
+          cursor: pointer;
+        }
+        button{
+            background: rgb(29, 155, 240);
+            color: white;
+            border-radius: 16px;
+            border: none;
+            padding: 10px 20px;
+            font-weight: bold;
+            cursor: pointer;
+            
+        }
+        // .custom-file-upload {
+        //   display: inline-block;
+        //   padding: 10px 20px;
+        //   font-size: 16px;
+        //   background-color: #007bff;
+        //   color: white;
+        //   border: none;
+        //   border-radius: 5px;
+        //   cursor: pointer;
+        //   transition: background-color 0.3s;
+        //   input[type="file"] {
+        //     // display: none;
+        //     &:hover {
+        //       background-color: #0056b3;
+        //     }
+        //   }
+         
+        // }
+    }
+    .reply{
+        padding: 10px;
+        span{
+            background: none;
+            border: transparent;
+            color: rgb(29, 155, 240) ;
+            font-weight: bold;
+            padding: 5px 20px;
+            margin-bottom: 10px;
+            border-radius: 9999px;
+            &:hover{
+                border: 1px solid rgb(245, 245, 245);
+                cursor: pointer;
+                background-color:rgb(238, 248, 255) ;
+            }
+        }
+    }
+  }
+}
+
+
+@media only screen and (max-width: 480px) {
+  #postcard.postcard {
+    padding:  0;
+    .form{
+      width: 100%;
+      height: 100%;
+      border-radius: 0;
+      .bottom{
+        button{
+          position: fixed;
+          top: 10px;
+          right: 10px;
+        }
+      }
+    }
+  }
+}

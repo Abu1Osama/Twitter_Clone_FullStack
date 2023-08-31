@@ -1,0 +1,78 @@
+#profile.profile {
+  .top {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    padding: 10px;
+    border: 1px solid red;
+    position: sticky;
+    background-color: rgba(
+      255,
+      255,
+      255,
+      0.8
+    ); /* Semi-transparent white background */
+    backdrop-filter: blur(10px); /* Apply a blur effect to the background */
+    width: 100%;
+    top: 0;
+    padding: 5px;
+    border: 1px solid rgb(236, 236, 236);
+    z-index: 9999;
+  }
+  .profile-data {
+    position: relative;
+    .user-image {
+      border-radius: 50%;
+      position: absolute;
+      top: 60%;
+      transform: translateX(-50%) translateY(-50%);
+      left: 70px;
+      // left: 50%;
+      img {
+        border-radius: 50%;
+        width: 120px;
+        height: 120px;
+        // object-fit: contain;
+      }
+    }
+    .data-top {
+      img {
+        max-height: 300px;
+        width: 100%;
+      }
+    }
+    .data-bottom {
+      display: grid;
+      gap: 10px;
+      span {
+        color: gray;
+      }
+      p {
+        color: black;
+        font-weight: bold;
+      }
+      .user-name-data {
+      }
+      .follwers {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+      .edit {
+        text-align: right;
+        padding: 10px;
+        button {
+          border-radius: 9999px;
+          padding: 10px 20px;
+          border: 1px solid rgb(203, 203, 203);
+          font-weight: bold;
+          cursor: pointer;
+          background-color: white;
+          &:hover {
+            background-color: #f0f0f0;
+          }
+        }
+      }
+    }
+  }
+}

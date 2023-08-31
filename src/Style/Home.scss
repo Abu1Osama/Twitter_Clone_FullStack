@@ -1,0 +1,14 @@
+#Home.Home{
+    display: grid;
+    grid-template-columns: 70% 30%;
+    width: 85%;
+    margin: auto;
+    // border: 1px solid green;
+}
+
+@media only screen and (max-width: 480px) {
+    #Home.Home{
+        grid-template-columns: 100%;
+        width: 100%;
+    }
+  }

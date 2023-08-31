@@ -1,0 +1,48 @@
+#mine.mine {
+  .card-main {
+    border-radius: 10px;
+    background: rgb(238, 238, 238);
+    margin-top: 20px;
+    h2 {
+      padding: 10px;
+    }
+    .main-data {
+      display: grid;
+      grid-template-columns: 20% 50% 30%;
+      padding: 5px;
+      align-items: center;
+      cursor: pointer;
+      margin-top: 10px;
+
+      button {
+        width: 100%;
+        border-radius: 9999px;
+        padding: 7px;
+        cursor: pointer;
+        background: #000;
+        color: white;
+        font-weight: bold;
+      }
+      img {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+      .content {
+        p {
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          width: max;
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  #mine.mine {
+    display: none;
+  }
+}
