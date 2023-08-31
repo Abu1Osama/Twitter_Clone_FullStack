@@ -41,12 +41,12 @@ function Auth() {
           <div className="action-auth">
             <h2>Join today.</h2>
             <br />
-            <button className="action-button">
+            <button className="action-button disabled">
               <h2>
                 {" "}
                 <FontAwesomeIcon
                   icon={faApple}
-                  className="apple-icon"
+                  className="apple-icon "
                   style={{ marginRight: "5px" }}
                 />
                 Sign up with Apple

@@ -70,7 +70,7 @@ setTimeout(() => {
             <div className="action-child">
               {step === 1 && (
                 <>
-                  <button className="action-button">
+                  <button className="action-button disabled">
                     <h2>   <FontAwesomeIcon icon={faApple} className="apple-icon" style={{marginRight:"5px"}} />Sign In with Apple</h2>
                   </button>
                   <div className="or-container">
