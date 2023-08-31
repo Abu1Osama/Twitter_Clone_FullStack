@@ -68,8 +68,32 @@
           font-weight: bold;
           cursor: pointer;
           background-color: white;
+          position: relative;
           &:hover {
             background-color: #f0f0f0;
+          }
+         
+        }
+        .disabled{
+          cursor: not-allowed;
+          &::after {
+            content: "Work in Progress";
+            position: absolute;
+            background: #333;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 4px;
+            bottom: 100%;
+            left: 50%;
+            // top:50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+          }
+          &:hover::after{
+            opacity: 1;
           }
         }
       }

@@ -9,6 +9,7 @@ const initialState = {
   followers: [], // Add followers field
   error: null,
   users: [],
+  userwithid:[]
 };
 
 export const userReducer = (state = initialState, action) => {
@@ -17,7 +18,7 @@ export const userReducer = (state = initialState, action) => {
     
       return {
         ...state,
-        ...action.payload,
+       userwithid:action.payload,
         error: null,
       };
     case actionTypes.FETCH_USER_FAILURE:

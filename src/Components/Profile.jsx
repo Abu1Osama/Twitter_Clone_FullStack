@@ -61,7 +61,7 @@ function Profile() {
         </div>
         <div className="data-bottom">
           <div className="edit">
-            <button onClick={openEditModal}>Edit Profile</button>
+            <button className="disabled" disabled={true} onClick={openEditModal}>Edit Profile</button>
           </div>
           <div className="user-name-data">
             <h2>{user.name}</h2>
