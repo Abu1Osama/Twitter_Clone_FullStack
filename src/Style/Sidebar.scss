@@ -3,12 +3,19 @@
   display: grid;
   grid-template-columns: 35% 65%;
   // height: 100vh;
+  // overflow: scroll;
   .card {
     display: flex;
     flex-direction: column;
     gap: 20px;
     height: Auto;
     padding: 20px;
+    .absolute{
+      position: relative;
+      display: none;
+      height: 50px;
+      // background: red;
+    }
     .iconic {
       display: grid;
       grid-template-columns: 10% 80%;
@@ -88,17 +95,48 @@
         }
       }
     }
+    .profile-bottom {
+      display: none;
+      .category {
+        .category-main {
+         .category-main-child {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+            font-size: 16px;
+            padding: 10px 0;
+            cursor: pointer;
+            &:hover {
+              background: #f7f9f9;
+            }
+          }
+          .category-output{
+          
+            .subcategory{
+             
+              p{
+                font-size: 16px;
+                margin-bottom: 7px;
+                cursor: pointer;
+              }
+            }
+          }
+        }
+      }
+    }
   }
 }
 @media only screen and (max-width: 480px) {
   #sidebar.sidebar {
     grid-template-columns: 100%;
-    
+  
+
     .card {
       position: absolute; /* Set position to absolute */
       left: -100%; /* Start off-screen to the left */
       top: 0;
-     
+
       flex-direction: column;
       gap: 20px;
       height: 100vh;
@@ -107,20 +145,52 @@
       background: white;
       z-index: 99999999;
       height: 100vh;
-      width: 50%;
+      width: 70%;
       display: none;
       // background: #000;
     }
-    &.card-absolute{
-      .card{
-         display: flex;;
+    &.card-absolute {
+      .card {
+        display: flex;
         left: 0;
-      
+        height: auto;
+        .absolute{
+          display: block;
+        }
+        .logo{
+          display: none;
+        }
+        .iconic {
+        }
+        .post{
+          display: none;
+        }
+        .user{
+          position: absolute;
+          top: 0;
+          width: 100%;
+          left: 0;
+          border-radius: 0;
+          
+      &:hover {
+        background-color:white;
+        border: none;
+      }
+      .user-activity{
+        .logout{
+          top: 30px;
+          right: 0px;
+          // transform: translateX(-51%);
+          width:max-content;
+          padding: 10px;
+        }
+      }
+        }
+      }
+   .profile-bottom{
+        display: block;
       }
       /* Show the card when the card-absolute class is applied */
     }
-   
-  
-}
-  
+  }
 }

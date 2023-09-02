@@ -1,0 +1,23 @@
+#page.page{
+
+
+.top {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    padding: 10px;
+    border: 1px solid red;
+    position: sticky;
+    background-color: rgba(
+      255,
+      255,
+      255,
+      0.8
+    ); /* Semi-transparent white background */
+    backdrop-filter: blur(10px); /* Apply a blur effect to the background */
+    width: 100%;
+    top: 0;
+    padding: 5px;
+    border: 1px solid rgb(236, 236, 236);
+    z-index: 9999;
+  }}

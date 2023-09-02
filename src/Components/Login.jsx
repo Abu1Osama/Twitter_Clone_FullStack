@@ -6,7 +6,7 @@ import logo from "../assets/logo_t.png";
 import Signup from "./Signup";
 import { loginUser } from "../Redux/AuthRedux/action";
 import { toast } from "react-hot-toast";
-import { faApple } from "@fortawesome/free-brands-svg-icons"; // Import the Apple icon
+import { faApple } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function Login({ onClose }) {
@@ -18,13 +18,18 @@ function Login({ onClose }) {
   const [usernameEditable, setUsernameEditable] = useState(true);
   const loggedInUserauth = useSelector((store) => store.auth.isAuth);
   const loggedInUser = useSelector((store) => store.auth.token);
-  console.log(loggedInUser)
+  console.log(loggedInUser);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const moveToStep2 = () => {
-    setStep(2);
+    if (email.trim() === "") {
+      toast.error("Please enter your username.");
+    } else {
+      setStep(2);
+    }
   };
+
   const openSignupModal = () => {
     setShowSignupModal(true);
   };
@@ -32,26 +37,25 @@ function Login({ onClose }) {
     setShowSignupModal(false);
   };
   const handleSignIn = () => {
-    try {
-      dispatch(loginUser(email, password)); 
-      localStorage.setItem("token", loggedInUser);
-      if (loggedInUserauth==true&&loggedInUser && !isRedirecting) {
-        setIsRedirecting(true);
-setTimeout(() => {
-  toast.success("user Loged in pleased wait.....")
-  navigate("/tweet");
-}, 3000);
-       
-
-
+    if (email.trim() === "" || password.trim() === "") {
+      toast.error("Please enter your password.");
+    } else {
+      try {
+        dispatch(loginUser(email, password, navigate));
+        localStorage.setItem("token", loggedInUser);
+        if (loggedInUserauth === true && loggedInUser && !isRedirecting) {
+          setIsRedirecting(true);
+          setTimeout(() => {
+            toast.success("User logged in, please wait...");
+          }, 3000);
+        }
+      } catch (error) {
+        console.error("Login failed:", error);
       }
-    } catch (error) {
-      console.error("Login failed:", error);
     }
   };
 
   useEffect(() => {
-    // Reset isRedirecting when component unmounts or when relevant state changes
     return () => {
       setIsRedirecting(false);
     };
@@ -71,7 +75,15 @@ setTimeout(() => {
               {step === 1 && (
                 <>
                   <button className="action-button disabled">
-                    <h2>   <FontAwesomeIcon icon={faApple} className="apple-icon" style={{marginRight:"5px"}} />Sign In with Apple</h2>
+                    <h2>
+                      {" "}
+                      <FontAwesomeIcon
+                        icon={faApple}
+                        className="apple-icon"
+                        style={{ marginRight: "5px" }}
+                      />
+                      Sign In with Apple
+                    </h2>
                   </button>
                   <div className="or-container">
                     <div className="or">or</div>
@@ -92,7 +104,7 @@ setTimeout(() => {
                     type="text"
                     placeholder="Phone, Email, or Username"
                     value={email}
-                    readOnly={!usernameEditable} // Set readOnly based on usernameEditable
+                    readOnly={!usernameEditable}
                   />
                   <input
                     className="create"

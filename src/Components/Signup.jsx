@@ -13,6 +13,7 @@ function Signup({ onClose }) {
     month: "",
     day: "",
     year: "",
+    password:"",
     dateOfBirth: "",
     avatar: null,
   });
@@ -33,19 +34,28 @@ function Signup({ onClose }) {
         toast.error("Please fill in all required fields.");
         return;
       }
+      if (!confirmed) {
+        toast.error("Please confirm your details.");
+        return;
+      }
       setCurrentStep(3);
     } else if (currentStep === 3) {
       if (!formData.day || !formData.month || !formData.year) {
         toast.error("Please select a valid date of birth.");
         return;
       }
-      if (!confirmed) {
-        toast.error("Please confirm your details.");
+      if(!formData.password){
+        toast.error("Please choose a password.");
         return;
       }
+      if(!formData.avatar){
+        toast.error("Please choose a avatar.");
+        return;
+      }
+      
+     
+    
       handleSignup();
-      toast.success("User created successfully");
-      navigate("/login");
     }
   
   };
@@ -72,14 +82,6 @@ function Signup({ onClose }) {
       }));
     }
   };
-  
-  
-  
-  
-  
-  
-  
-
   const isFormValid = () => {
     if (currentStep === 2) {
       return formData.username.trim() !== "";
@@ -118,7 +120,7 @@ function Signup({ onClose }) {
       //   name:formData.name,
       //   avatar,
       // }
-    dispatch(signupUser(userData)); // Pass FormData to signupUser action
+    dispatch(signupUser(userData,navigate)); // Pass FormData to signupUser action
     console.log(userData)
   };
   return (

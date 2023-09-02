@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import "../Style/Profile.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCalendar } from "@fortawesome/free-solid-svg-icons";
+import { faCalendar,faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUser } from "../Redux/UserRedux/action";
 import {  getuserTweet } from "../Redux/TweetRedux.js/action";
 import Editprofile from "./Editprofile";
+import { Link } from "react-router-dom";
 
-function Profile() {
+function Profile({setCurrentindex,setCurrentindex2}) {
   const Profile = useSelector((state) => state.auth);
   const user = useSelector((state) => state.user);
   const post = useSelector((state) => state.tweet.tweet);
@@ -35,12 +36,17 @@ function Profile() {
     month: "long",
     year: "numeric",
   });
+  const goBack = () => {
+    setCurrentindex(0)
+    setCurrentindex2(6)
+    // Go back to the previous page in the browser's history
+    };
   return (
     <>
 
     <div id="profile" className="profile">
       <div className="top">
-        <div>Go back</div>
+      <div onClick={goBack}> <FontAwesomeIcon icon={faArrowLeft} /></div>
         <div>
           <h4>{user.name}</h4>
           <p> Post</p>
@@ -91,6 +97,7 @@ function Profile() {
           </div>
         </div>
       </div>
+     
 
     </div>
      {showEditModal && <Editprofile onClose={closeEditModal} userId={Profile.userId}/>}
