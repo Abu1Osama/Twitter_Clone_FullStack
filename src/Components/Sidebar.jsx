@@ -15,6 +15,14 @@ import {
   faBookmark,
   faMoneyBill,
   faUsers as faCommunities,
+  faCogs, 
+  faQuestionCircle, 
+  faSlidersH, 
+  faDesktop, 
+  faKeyboard, 
+  faSignOutAlt,
+  faChartBar,
+  faAd,
 } from "@fortawesome/free-solid-svg-icons";
 import "../Style/Sidebar.scss";
 import Home from "../Pages/Home";
@@ -54,6 +62,14 @@ function Sidebar() {
     List: faList,
     Bookmarks: faBookmark,
     Monetization: faMoneyBill,
+    "Setting and privacy": faCogs,
+    "Help Center": faQuestionCircle,
+    "Data Saver": faSlidersH,
+    Display: faDesktop,
+    "Keyboard shortcuts": faKeyboard,
+    Logout: faSignOutAlt,
+    Analytics: faChartBar,
+    Ads: faAd,
   };
   const [isPostPopupOpen, setIsPostPopupOpen] = useState(false);
   const [isLogoutOpen, setIsLogoutOpen] = useState(false);
@@ -184,13 +200,13 @@ function Sidebar() {
 
   const toggleCardVisibility = () => {
     console.log("first");
-    setIsCardVisible(true); // Toggle the state to show/hide the card
+    setIsCardVisible(true); 
   };
 
   const closesidebar = (event) => {
     event.stopPropagation();
     if (isCardVisible) {
-      setIsCardVisible(false); // Close the card when clicking outside
+      setIsCardVisible(false); 
     }
   };
   const handleChotaPiddaItemClick = (index) => {
@@ -276,6 +292,11 @@ function Sidebar() {
                   <div className="category-output">
                     {category.map((subcategory) => (
                       <div className="subcategory" key={subcategory}>
+                        {iconMapping[subcategory] ? (
+                          <FontAwesomeIcon icon={iconMapping[subcategory]} />
+                        ) : (
+                          <img src={subcategory.image} alt="" />
+                        )}
                         <p>{subcategory}</p>
                       </div>
                     ))}

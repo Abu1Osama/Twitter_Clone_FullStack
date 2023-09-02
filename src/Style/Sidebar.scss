@@ -114,6 +114,9 @@
           .category-output{
           
             .subcategory{
+              display: flex;
+              align-items: center;
+              gap: 15px;
              
               p{
                 font-size: 16px;
@@ -154,6 +157,8 @@
         display: flex;
         left: 0;
         height: auto;
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+        height: 100vh;
         .absolute{
           display: block;
         }
