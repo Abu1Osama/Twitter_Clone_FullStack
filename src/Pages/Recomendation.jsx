@@ -1,29 +1,39 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "../Style/Recomendation.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { followUser, unfollowUser, getAllUsers } from "../Redux/UserRedux/action";
+import {
+  followUser,
+  unfollowUser,
+  getAllUsers,
+} from "../Redux/UserRedux/action";
 import { getTimeline } from "../Redux/TweetRedux.js/action";
 
 function Recomendation() {
   const users = useSelector((state) => state.user.users);
   const followedUsers = useSelector((state) => state.user.followers); // Assuming you have a state for followed users
   const userId = useSelector((state) => state.auth.userId);
-  console.log(userId)
+  const [buttonText, setButtonText] = useState({});
+  console.log(userId);
   const dispatch = useDispatch();
+  console.log(followedUsers);
 
   useEffect(() => {
     dispatch(getAllUsers());
-    dispatch(getTimeline())
+    dispatch(getTimeline());
   }, [dispatch]);
 
   const handleFollowToggle = (id) => {
-    if (followedUsers.includes(id)) {
+    const isCurrentlyFollowed = buttonText[id] === "Unfollow";
+
+    if (isCurrentlyFollowed) {
       dispatch(unfollowUser(id));
+      setButtonText({ ...buttonText, [id]: "Follow" });
     } else {
       dispatch(followUser(id));
+      setButtonText({ ...buttonText, [id]: "Unfollow" });
     }
+
     dispatch(getTimeline());
-   
   };
   const filteredUsers = users.filter((user) => user._id !== userId);
   return (
@@ -45,14 +55,14 @@ function Recomendation() {
             </div>
             <div className="btn">
               <button onClick={() => handleFollowToggle(item._id)}>
-                {followedUsers.includes(item._id) ? "Unfollow" : "Follow"}
+                {buttonText[item._id] ||
+                  (followedUsers.includes(item._id) ? "Unfollow" : "Follow")}
               </button>
             </div>
           </div>
         ))}
       </div>
     </div>
-   
   );
 }
 

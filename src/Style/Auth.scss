@@ -144,6 +144,39 @@
     }
   }
 }
+@media only screen and (min-width: 480px) and  (max-width: 901px) {
+  #mainpage.mainpage {
+    #auth.auth {
+      grid-template-columns: 100%;
+      margin-top: 30px;
+      padding-left: 100px;
+      gap: 40px;
+      .logo-box {
+        text-align: start;
+        img {
+          width: 10%;
+        }
+      }
+      .content {
+        h1 {
+          font-size: 60px;
+          width: 50%;
+          // text-align: center;
+        }
+        .action-auth{
+            padding: 20px;
+        }
+      }
+  
+  }
+  .footer {
+    position: static;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 20px 10px;
+    }
+}
+}
 
 @media only screen and (max-width: 480px) {
   #mainpage.mainpage {

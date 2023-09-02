@@ -10,10 +10,10 @@
     gap: 20px;
     height: Auto;
     padding: 20px;
-    .absolute{
+    .absolute {
       position: relative;
       display: none;
-      height: 50px;
+      height: 100px;
       // background: red;
     }
     .iconic {
@@ -47,7 +47,8 @@
     .user {
       display: grid;
       align-items: center;
-      grid-template-columns: 20% 50% 20%;
+      grid-template-columns: 69% 20%;
+      justify-content: space-between;
       gap: 10px;
       cursor: pointer;
       border-radius: 9999px;
@@ -57,30 +58,48 @@
         border: 1px solid rgb(225, 225, 225);
         background-color: rgb(230, 230, 230);
       }
+      .left {
+        display: grid;
+        grid-template-columns: 39% 20%;
+        align-items: center;
+        .user-img {
+          img {
+            border-radius: 50%;
+            padding: 5px;
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+          }
+        }
+        .user-data {
+          font-size: 15px;
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+         
+          .user-data-a{
 
-      img {
-        border-radius: 50%;
-        padding: 5px;
-        width: 60px;
-        height: 60px;
-        object-fit: cover;
-      }
-      .user-data {
-        font-size: 15px;
-        .l-name {
-          font-weight: 800;
+          .l-name {
+            font-weight: 800;
+          }
+          .l-username {
+            color: gray;
+          }
         }
-        .l-username {
-          color: gray;
+        .user-data-b{
+          display: none;
+          gap: 10px;
+        }
         }
       }
+
       .user-activity {
         position: relative;
         .logout {
           position: absolute;
-          top: -80px; /* Adjust as needed */
-          left: 0px;
-          transform: translateX(-91%);
+          top: -85px; /* Adjust as needed */
+          left: 0;
+          transform: translateX(-78%);
           background-color: white;
           border-radius: 10px;
           padding: 20px;
@@ -99,7 +118,7 @@
       display: none;
       .category {
         .category-main {
-         .category-main-child {
+          .category-main-child {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -111,14 +130,13 @@
               background: #f7f9f9;
             }
           }
-          .category-output{
-          
-            .subcategory{
+          .category-output {
+            .subcategory {
               display: flex;
               align-items: center;
               gap: 15px;
-             
-              p{
+
+              p {
                 font-size: 16px;
                 margin-bottom: 7px;
                 cursor: pointer;
@@ -130,10 +148,35 @@
     }
   }
 }
+
+
+@media only screen and  (min-width: 481px) and ( max-width: 901px) {
+  #sidebar.sidebar {
+    grid-template-columns: 12% 84%;
+    .card{
+      align-items: center;
+      gap: 30px;
+      span{
+        display: none;
+      }
+      .user {
+        position: absolute;
+        bottom: 20px;
+        .left{
+          .user-data{
+            display: none;
+          }
+        }
+      }
+      .user-activity {
+        display: none;
+      }
+    }
+  }
+}
 @media only screen and (max-width: 480px) {
   #sidebar.sidebar {
     grid-template-columns: 100%;
-  
 
     .card {
       position: absolute; /* Set position to absolute */
@@ -159,43 +202,64 @@
         height: auto;
         box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
         height: 100vh;
-        .absolute{
+        .absolute {
           display: block;
         }
-        .logo{
+        .logo {
           display: none;
         }
         .iconic {
         }
-        .post{
+        .post {
           display: none;
         }
-        .user{
+        .user {
           position: absolute;
           top: 0;
           width: 100%;
           left: 0;
           border-radius: 0;
-          
-      &:hover {
-        background-color:white;
-        border: none;
-      }
-      .user-activity{
-        .logout{
-          top: 30px;
-          right: 0px;
-          // transform: translateX(-51%);
-          width:max-content;
-          padding: 10px;
+          // background: #000;
+          .left {
+            grid-template-columns: 100%;
+            .user-img {
+              img{
+                height: 30px;
+                width: 30px;
+              }
+            }
+            .user-data {
+              .user-data-b{
+                display: flex;
+              }
+            }
+          }
+
+          .user-activity {
+            text-align: right;
+            padding: 0 10px;
+          }
+
+          &:hover {
+            background-color: white;
+            border: none;
+          }
+          .user-activity {
+            .logout {
+              top: 30px;
+              right: 0px;
+              // transform: translateX(-51%);
+              width: max-content;
+              padding: 10px;
+            }
+          }
         }
       }
-        }
-      }
-   .profile-bottom{
+      .profile-bottom {
         display: block;
       }
       /* Show the card when the card-absolute class is applied */
     }
   }
 }
+

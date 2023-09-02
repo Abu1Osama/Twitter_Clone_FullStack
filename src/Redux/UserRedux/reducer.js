@@ -6,7 +6,7 @@ const initialState = {
   username: null,
   name: null,
   userId: null,
-  followers: [], // Add followers field
+  followers: [],
   error: null,
   users: [],
   userwithid:[]

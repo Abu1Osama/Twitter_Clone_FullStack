@@ -13,7 +13,7 @@ function Profile({setCurrentindex,setCurrentindex2}) {
   const user = useSelector((state) => state.user);
   const post = useSelector((state) => state.tweet.tweet);
   // console.log(Profile.avatar)
-  // console.log(post)
+ 
   // console.log(user);
   // console.log(post)
   const dispatch = useDispatch();
@@ -48,8 +48,8 @@ function Profile({setCurrentindex,setCurrentindex2}) {
       <div className="top">
       <div onClick={goBack}> <FontAwesomeIcon icon={faArrowLeft} /></div>
         <div>
-          <h4>{user.name}</h4>
-          <p> Post</p>
+          <h4>{Profile.name}</h4>
+          <p>  <span>{post.length === 0 ? "0" : post.length}</span> Post</p>
         </div>
       </div>
       <div className="profile-data">

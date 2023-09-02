@@ -15,14 +15,15 @@ import {
   faBookmark,
   faMoneyBill,
   faUsers as faCommunities,
-  faCogs, 
-  faQuestionCircle, 
-  faSlidersH, 
-  faDesktop, 
-  faKeyboard, 
+  faCogs,
+  faQuestionCircle,
+  faSlidersH,
+  faDesktop,
+  faKeyboard,
   faSignOutAlt,
   faChartBar,
   faAd,
+  faSearch
 } from "@fortawesome/free-solid-svg-icons";
 import "../Style/Sidebar.scss";
 import Home from "../Pages/Home";
@@ -44,11 +45,11 @@ import List from "../Pages/List";
 function Sidebar() {
   const [currentindex, setCurrentindex] = useState(0);
   const [currentindex2, setCurrentindex2] = useState(0);
+  const [currentindex3, setCurrentindex3] = useState(0);
   const loggedInUser = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  console.log(loggedInUser);
   const home = <i class="fa-solid fa-house"></i>;
   const iconMapping = {
     Home: faHouse,
@@ -70,12 +71,15 @@ function Sidebar() {
     Logout: faSignOutAlt,
     Analytics: faChartBar,
     Ads: faAd,
+    Search: faSearch,
+    
   };
   const [isPostPopupOpen, setIsPostPopupOpen] = useState(false);
   const [isLogoutOpen, setIsLogoutOpen] = useState(false);
   const [isCardVisible, setIsCardVisible] = useState(false);
 
-  const [chotaPidda, setChotapidda] = useState([
+
+  const [chotaPidda, setChotaPidda] = useState([
     {
       name: "Home",
       image: home,
@@ -117,7 +121,7 @@ function Sidebar() {
       active: "none",
     },
   ]);
-  const [chotaPidda2, setChotapidda2] = useState([
+  const [chotaPidda2, setChotaPidda2] = useState([
     {
       name: "Profile",
       image: "",
@@ -149,6 +153,67 @@ function Sidebar() {
       active: "none",
     },
   ]);
+  const [chotaPidda3, setChotaPidda3] = useState([
+    {
+      name: "Home",
+      image: "",
+      active: "none",
+    },
+    {
+      name: "Search",
+      image: "",
+      active: "none",
+    },
+    {
+      name: "Notification",
+      image: "",
+      active: "none",
+    },
+    {
+      name: "Messages",
+      image: "",
+      active: "none",
+    },
+    {
+      name: "List",
+      image: "",
+      active: "none",
+    },
+    {
+      name: "Bookmarks",
+      image: "",
+      active: "none",
+    },
+    {
+      name: "Communities",
+      image: "",
+      active: "none",
+    },
+    {
+      name: "Verified",
+      image: "",
+      active: "none",
+    },
+    {
+      name: "Profile",
+      image: "",
+      active: "none",
+    },
+    {
+      name: "More",
+      image: "",
+      active: "none",
+    },
+  ]);
+  const [itemsToRender, setItemsToRender] = useState(() => {
+    if (window.innerWidth <= 480) {
+      return chotaPidda2;
+    } else if (window.innerWidth <= 901) {
+      return chotaPidda3;
+    } else {
+      return chotaPidda;
+    }
+  });
   const [category, setCategory] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -199,28 +264,48 @@ function Sidebar() {
   };
 
   const toggleCardVisibility = () => {
-    console.log("first");
-    setIsCardVisible(true); 
+    setIsCardVisible(true);
   };
 
   const closesidebar = (event) => {
     event.stopPropagation();
     if (isCardVisible) {
-      setIsCardVisible(false); 
+      setIsCardVisible(false);
     }
   };
-  const handleChotaPiddaItemClick = (index) => {
-    if (window.innerWidth > 480) {
-      setCurrentindex(index);
-    } else {
-      setCurrentindex2(index);
-    }
+  const handleItemClick = (index) => {
+    setCurrentindex(index);
   };
 
-  const handleChotaPidda2ItemClick = (index) => {
+  const handleItemClick2 = (index) => {
     setCurrentindex2(index);
   };
-  const itemsToRender = window.innerWidth <= 480 ? chotaPidda2 : chotaPidda;
+
+  const handleItemClick3 = (index) => {
+    setCurrentindex3(index);
+  };
+
+
+  const screenWidth = window.innerWidth;
+
+  useEffect(() => {
+    const handleResize = () => {
+      const newScreenWidth = window.innerWidth;
+      if (newScreenWidth <= 480) {
+        setCurrentindex2(currentindex => Math.min(currentindex, chotaPidda2.length - 1));
+      } else if (newScreenWidth <= 901) {
+        setCurrentindex3(currentindex => Math.min(currentindex, chotaPidda3.length - 1));
+      } else {
+        setCurrentindex(currentindex => Math.min(currentindex, chotaPidda.length - 1));
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [chotaPidda, chotaPidda2, chotaPidda3]);
 
   return (
     <div
@@ -232,13 +317,15 @@ function Sidebar() {
           <img src={logo} alt="" />
         </div>
         <div className="absolute"></div>
-        {itemsToRender.map((item, index) => (
+        {(itemsToRender).map((item, index) => (
           <div
             onClick={() => {
-              if (itemsToRender === chotaPidda2) {
-                handleChotaPidda2ItemClick(index);
+              if (screenWidth <= 480) {
+                handleItemClick2(index);
+              } else if (screenWidth <= 901) {
+                handleItemClick3(index);
               } else {
-                handleChotaPiddaItemClick(index);
+                handleItemClick(index);
               }
             }}
             className="iconic"
@@ -255,15 +342,29 @@ function Sidebar() {
           <button onClick={togglePostPopup}>Post</button>
         </div>
         <div className="user">
-          <div className="user-img logo2">
-            <img
-              src={`https://twitter-clone-8kdy.onrender.com/avatars/${loggedInUser.avatar}`}
-              alt=""
-            />
-          </div>
-          <div className="user-data">
-            <h4 className="l-name"> {loggedInUser.name}</h4>
-            <p className="l-username"> {loggedInUser.username}</p>
+          <div className="left">
+            <div className="user-img logo2">
+              <img
+                src={`https://twitter-clone-8kdy.onrender.com/avatars/${loggedInUser.avatar}`}
+                alt=""
+              />
+            </div>
+            <div className="user-data">
+              <div className="user-data-a">
+                <h4 className="l-name"> {loggedInUser.name}</h4>
+                <p className="l-username"> {loggedInUser.username}</p>
+              </div>
+              <div className="user-data-b">
+                <span>
+                  {" "}
+                  <strong>4</strong> Following
+                </span>
+                <span>
+                  {" "}
+                  <strong>4</strong> Followers
+                </span>
+              </div>
+            </div>
           </div>
           <div className="user-activity">
             <FontAwesomeIcon
@@ -308,27 +409,73 @@ function Sidebar() {
         </div>
       </div>
       <div onClick={closesidebar} className="main-contain">
-        {window.innerWidth > 480 ? (
-          // For large screens
-          currentindex == 0 ? (
-            <Homepage toggleCardPosition={toggleCardVisibility} />
-          ) : currentindex == 1 ? (
-            <Explore setCurrentindex={setCurrentindex} />
-          ) : currentindex == 2 ? (
-            <Notification setCurrentindex={setCurrentindex} />
-          ) : currentindex == 3 ? (
-            <Messages setCurrentindex={setCurrentindex} />
-          ) : currentindex == 4 ? (
-            <Communities
-              setCurrentindex={setCurrentindex}
+        {screenWidth <= 480 ? (
+          // For small screens
+          currentindex2 == 0 ? (
+            <Profile
+              toggleCardPosition={toggleCardVisibility}
               setCurrentindex2={setCurrentindex2}
+              setCurrentindex={setCurrentindex}
             />
-          ) : currentindex == 5 ? (
+          ) : currentindex2 == 1 ? (
             <Verified
               setCurrentindex2={setCurrentindex2}
               setCurrentindex={setCurrentindex}
             />
-          ) : currentindex == 6 ? (
+          ) : currentindex2 == 2 ? (
+            <List setCurrentindex2={setCurrentindex2} />
+          ) : currentindex2 == 3 ? (
+            <Bookmarks
+              toggleCardPosition={toggleCardVisibility}
+              setCurrentindex2={setCurrentindex2}
+            />
+          ) : currentindex2 == 4 ? (
+            <Communities
+              setCurrentindex2={setCurrentindex2}
+              setCurrentindex={setCurrentindex}
+            />
+          ) : (
+            <div>
+              <Homepage toggleCardPosition={toggleCardVisibility} />
+            </div>
+          )
+        ) : screenWidth <= 901 ? (
+          // For medium screens
+          currentindex3 == 0 ? (
+            <Homepage toggleCardPosition={toggleCardVisibility} />
+          ) : currentindex3 == 1 ? (
+            <h1>Search</h1>
+          ) : currentindex3 == 2 ? (
+            <Notification setCurrentindex={setCurrentindex} />
+          ) : currentindex3 == 3 ? (
+            <Messages setCurrentindex={setCurrentindex} />
+          ) : currentindex3 == 4 ? (
+            <List
+              setCurrentindex={setCurrentindex}
+              setCurrentindex2={setCurrentindex2}
+            />
+          ) : currentindex3 == 5 ? (
+            <Bookmarks
+              setCurrentindex2={setCurrentindex2}
+              setCurrentindex={setCurrentindex}
+            />
+          ) : currentindex3 == 6 ? (
+            <div>
+              <Communities
+                toggleCardPosition={toggleCardVisibility}
+                setCurrentindex={setCurrentindex}
+                setCurrentindex2={setCurrentindex2}
+              />
+            </div>
+          ) :currentindex3 == 7 ? (
+            <div>
+              <Verified
+                toggleCardPosition={toggleCardVisibility}
+                setCurrentindex={setCurrentindex}
+                setCurrentindex2={setCurrentindex2}
+              />
+            </div>
+          ):currentindex3 == 8 ? (
             <div>
               <Profile
                 toggleCardPosition={toggleCardVisibility}
@@ -336,37 +483,38 @@ function Sidebar() {
                 setCurrentindex2={setCurrentindex2}
               />
             </div>
-          ) : (
+          ) :(
             <More setCurrentindex={setCurrentindex} />
           )
-        ) : // For small screens
-        currentindex2 == 0 ? (
-          <Profile
-            toggleCardPosition={toggleCardVisibility}
-            setCurrentindex2={setCurrentindex2}
+        ) : // For large screens
+        currentindex == 0 ? (
+          <Homepage toggleCardPosition={toggleCardVisibility} />
+        ) : currentindex == 1 ? (
+          <Explore setCurrentindex={setCurrentindex} />
+        ) : currentindex == 2 ? (
+          <Notification setCurrentindex={setCurrentindex} />
+        ) : currentindex == 3 ? (
+          <Messages setCurrentindex={setCurrentindex} />
+        ) : currentindex == 4 ? (
+          <Communities
             setCurrentindex={setCurrentindex}
+            setCurrentindex2={setCurrentindex2}
           />
-        ) : currentindex2 == 1 ? (
+        ) : currentindex == 5 ? (
           <Verified
             setCurrentindex2={setCurrentindex2}
             setCurrentindex={setCurrentindex}
           />
-        ) : currentindex2 == 2 ? (
-          <List setCurrentindex2={setCurrentindex2} />
-        ) : currentindex2 == 3 ? (
-          <Bookmarks
-            toggleCardPosition={toggleCardVisibility}
-            setCurrentindex2={setCurrentindex2}
-          />
-        ) : currentindex2 == 4 ? (
-          <Communities
-            setCurrentindex2={setCurrentindex2}
-            setCurrentindex={setCurrentindex}
-          />
-        ) : (
+        ) : currentindex == 6 ? (
           <div>
-            <Homepage toggleCardPosition={toggleCardVisibility} />
+            <Profile
+              toggleCardPosition={toggleCardVisibility}
+              setCurrentindex={setCurrentindex}
+              setCurrentindex2={setCurrentindex2}
+            />
           </div>
+        ) : (
+          <More setCurrentindex={setCurrentindex} />
         )}
       </div>
 

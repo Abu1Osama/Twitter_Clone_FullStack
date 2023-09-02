@@ -160,15 +160,17 @@
             position: relative;
             .unfollow {
               position: absolute;
-              top: 0; /* Adjust as needed */
+              top: 20px; /* Adjust as needed */
               left: 0px;
               transform: translateX(-91%);
               background-color: white;
               border-radius: 10px;
-              padding: 20px;
+              padding: 10px;
               display: grid;
-              width: 290px;
+              // width: 290px;
               box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+              font-weight: 500;
+              cursor: pointer;
             }
           }
         }

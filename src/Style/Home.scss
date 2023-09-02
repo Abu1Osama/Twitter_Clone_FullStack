@@ -12,3 +12,9 @@
         width: 100%;
     }
   }
+  @media only screen and (max-width: 901px) {
+    #Home.Home{
+        grid-template-columns: 100%;
+        width: 100%;
+    }
+  }
