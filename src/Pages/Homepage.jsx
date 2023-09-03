@@ -88,7 +88,7 @@ function Homepage({ toggleCardPosition }) {
       >
         {allTweetsWithProfiles.map((item) => {
           const authorUser = users.find((user) => user._id === item.author._id);
-          // console.log(authorUser)
+          console.log(authorUser.avatar)
           return (
             <div className="show-tweets" key={item._id}>
               <div className="user-image">

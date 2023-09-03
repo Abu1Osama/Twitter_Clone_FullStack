@@ -23,7 +23,7 @@ import {
   faSignOutAlt,
   faChartBar,
   faAd,
-  faSearch
+  faSearch,
 } from "@fortawesome/free-solid-svg-icons";
 import "../Style/Sidebar.scss";
 import Home from "../Pages/Home";
@@ -47,6 +47,7 @@ function Sidebar() {
   const [currentindex2, setCurrentindex2] = useState(0);
   const [currentindex3, setCurrentindex3] = useState(0);
   const loggedInUser = useSelector((state) => state.auth);
+  const user = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -72,12 +73,10 @@ function Sidebar() {
     Analytics: faChartBar,
     Ads: faAd,
     Search: faSearch,
-    
   };
   const [isPostPopupOpen, setIsPostPopupOpen] = useState(false);
   const [isLogoutOpen, setIsLogoutOpen] = useState(false);
   const [isCardVisible, setIsCardVisible] = useState(false);
-
 
   const [chotaPidda, setChotaPidda] = useState([
     {
@@ -285,18 +284,23 @@ function Sidebar() {
     setCurrentindex3(index);
   };
 
-
   const screenWidth = window.innerWidth;
 
   useEffect(() => {
     const handleResize = () => {
       const newScreenWidth = window.innerWidth;
       if (newScreenWidth <= 480) {
-        setCurrentindex2(currentindex => Math.min(currentindex, chotaPidda2.length - 1));
-      } else if (newScreenWidth <= 901) {
-        setCurrentindex3(currentindex => Math.min(currentindex, chotaPidda3.length - 1));
+        setCurrentindex2((currentindex) =>
+          Math.min(currentindex, chotaPidda2.length - 1)
+        );
+      } else if (newScreenWidth > 480 && newScreenWidth <= 901) {
+        setCurrentindex3((currentindex) =>
+          Math.min(currentindex, chotaPidda3.length - 1)
+        );
       } else {
-        setCurrentindex(currentindex => Math.min(currentindex, chotaPidda.length - 1));
+        setCurrentindex((currentindex) =>
+          Math.min(currentindex, chotaPidda.length - 1)
+        );
       }
     };
 
@@ -317,7 +321,7 @@ function Sidebar() {
           <img src={logo} alt="" />
         </div>
         <div className="absolute"></div>
-        {(itemsToRender).map((item, index) => (
+        {itemsToRender.map((item, index) => (
           <div
             onClick={() => {
               if (screenWidth <= 480) {
@@ -357,11 +361,11 @@ function Sidebar() {
               <div className="user-data-b">
                 <span>
                   {" "}
-                  <strong>4</strong> Following
+                  <strong>{user.followers.length}</strong> Following
                 </span>
                 <span>
                   {" "}
-                  <strong>4</strong> Followers
+                  <strong>{user.followers.length}</strong> Followers
                 </span>
               </div>
             </div>
@@ -421,6 +425,7 @@ function Sidebar() {
             <Verified
               setCurrentindex2={setCurrentindex2}
               setCurrentindex={setCurrentindex}
+              setCurrentindex3={setCurrentindex3}
             />
           ) : currentindex2 == 2 ? (
             <List setCurrentindex2={setCurrentindex2} />
@@ -467,15 +472,16 @@ function Sidebar() {
                 setCurrentindex2={setCurrentindex2}
               />
             </div>
-          ) :currentindex3 == 7 ? (
+          ) : currentindex3 == 7 ? (
             <div>
               <Verified
                 toggleCardPosition={toggleCardVisibility}
                 setCurrentindex={setCurrentindex}
                 setCurrentindex2={setCurrentindex2}
+                setCurrentindex3={setCurrentindex3}
               />
             </div>
-          ):currentindex3 == 8 ? (
+          ) : currentindex3 == 8 ? (
             <div>
               <Profile
                 toggleCardPosition={toggleCardVisibility}
@@ -483,7 +489,7 @@ function Sidebar() {
                 setCurrentindex2={setCurrentindex2}
               />
             </div>
-          ) :(
+          ) : (
             <More setCurrentindex={setCurrentindex} />
           )
         ) : // For large screens
@@ -503,6 +509,7 @@ function Sidebar() {
         ) : currentindex == 5 ? (
           <Verified
             setCurrentindex2={setCurrentindex2}
+            setCurrentindex3={setCurrentindex3}
             setCurrentindex={setCurrentindex}
           />
         ) : currentindex == 6 ? (
@@ -511,6 +518,7 @@ function Sidebar() {
               toggleCardPosition={toggleCardVisibility}
               setCurrentindex={setCurrentindex}
               setCurrentindex2={setCurrentindex2}
+              setCurrentindex3={setCurrentindex3}
             />
           </div>
         ) : (

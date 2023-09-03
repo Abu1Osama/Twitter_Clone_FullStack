@@ -1,0 +1,116 @@
+#Verified.Verified {
+  background-color: rgba(0, 0, 0, 0.4);
+  height: 100%;
+  padding: 40px 0;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  .verified-main {
+    background-color: rgba(255, 255, 255, 1);
+    width: 600px;
+    margin: 35px auto;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    border-radius: 16px;
+    position: relative;
+    // padding-bottom: 80px;
+    height: 80vh;
+    overflow-y: auto;
+    .top {
+        p{
+        padding: 15px;
+        }
+      }
+    .select-verified {
+      display: grid;
+      gap: 30px;
+      padding: 10px;
+      justify-content: center;
+    //   border: 1px solid;
+    //   margin-top:80px;
+      width: 80%;
+      margin:80px auto 0 auto;
+
+    
+      .heading {
+        display: grid;
+        gap: 20px;
+        justify-content: center;
+        text-align: center;
+        h4 {
+          color: gray;
+          font-weight: normal;
+        }
+      }
+      .center {
+        display: grid;
+        grid-template-columns: 46% 46%;
+        justify-content: center;
+        gap: 20px;
+
+        .center-left,
+        .center-right {
+          // border: 1px solid;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+          padding: 10px 8px;
+          border-radius: 10px;
+          border-color: rgba(0, 0, 0, 0);
+          box-sizing: border-box;
+          gap: 5px;
+          border: 2px solid white;
+          cursor: pointer;
+          &:hover{
+            border: 2px solid #1d9bf0;
+
+          }
+          p {
+            font-size: 12px;
+            color: gray;
+          }
+          h3 {
+            font-weight: 700;
+            font-family: "TwitterChirp", "-apple-system,BlinkMacSystemFont",
+              "Segoe UI", "Roboto", Helvetica, Arial, sans-serif;
+          }
+          h4 {
+            color: gray;
+            font-weight: normal;
+          }
+        }
+      }
+      .subscribe {
+        button {
+          background-color: black;
+          color: white;
+          border-radius: 9999px;
+          padding: 15px;
+          width: 100%;
+          font-weight: bold;
+          font-size: 16px;
+          cursor: pointer;
+        }
+      }
+      .policy {
+        text-align: center;
+        span {
+          color: rgb(29, 155, 240);
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 480px) {
+    #Verified.Verified{
+        padding:  0;
+        .verified-main {
+            width: 100%;
+            height: 100vh;
+            border-radius: 0;
+            margin: 0;
+        }
+    }
+}   

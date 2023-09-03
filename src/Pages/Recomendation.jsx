@@ -10,32 +10,44 @@ import { getTimeline } from "../Redux/TweetRedux.js/action";
 
 function Recomendation() {
   const users = useSelector((state) => state.user.users);
-  const followedUsers = useSelector((state) => state.user.followers); // Assuming you have a state for followed users
+  const followedUsers = useSelector((state) => state.user.followers);
   const userId = useSelector((state) => state.auth.userId);
-  const [buttonText, setButtonText] = useState({});
-  console.log(userId);
   const dispatch = useDispatch();
-  console.log(followedUsers);
+  const [buttonText, setButtonText] = useState({});
 
   useEffect(() => {
     dispatch(getAllUsers());
     dispatch(getTimeline());
   }, [dispatch]);
 
+  useEffect(() => {
+    // Load button text from localStorage
+    const savedButtonText = JSON.parse(localStorage.getItem("buttonText")) || {};
+    setButtonText(savedButtonText);
+  }, []);
+
   const handleFollowToggle = (id) => {
     const isCurrentlyFollowed = buttonText[id] === "Unfollow";
 
     if (isCurrentlyFollowed) {
       dispatch(unfollowUser(id));
-      setButtonText({ ...buttonText, [id]: "Follow" });
+      // Remove the button text from state and localStorage when unfollowed
+      const updatedButtonText = { ...buttonText };
+      delete updatedButtonText[id];
+      setButtonText(updatedButtonText);
     } else {
       dispatch(followUser(id));
       setButtonText({ ...buttonText, [id]: "Unfollow" });
     }
 
     dispatch(getTimeline());
+    
+    // Save button text to localStorage
+    localStorage.setItem("buttonText", JSON.stringify(buttonText));
   };
+
   const filteredUsers = users.filter((user) => user._id !== userId);
+
   return (
     <div className="mine" id="mine">
       <div className="card-main">
