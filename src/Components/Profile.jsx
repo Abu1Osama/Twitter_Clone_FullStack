@@ -10,11 +10,12 @@ import { Link } from "react-router-dom";
 
 function Profile({setCurrentindex,setCurrentindex2}) {
   const Profile = useSelector((state) => state.auth);
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state) => state.user.userwithid
+  );
   const post = useSelector((state) => state.tweet.tweet);
   // console.log(Profile.avatar)
  
-  // console.log(user);
+  console.log(user);
   // console.log(post)
   const dispatch = useDispatch();
   const [showEditModal, setShowEditModal] = useState(false);

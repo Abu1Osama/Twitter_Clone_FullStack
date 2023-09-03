@@ -24,17 +24,23 @@ function Homepage({ toggleCardPosition }) {
   let { allTweetsWithProfiles, timelineTweets } = useSelector(
     (store) => store.tweet
   );
+  console.log(timelineTweets)
   const togglePostPopup = () => {
     setIsPostPopupOpen(!isPostPopupOpen);
   };
   // console.log(timelineTweets)
   const users = useSelector((state) => state.user.users);
-  const users2 = useSelector((state) => state.user.followers);
+  const users2 = useSelector((state) => state.user.userwithid);
+  console.log(users)
   const self = useSelector((state) => state.auth);
-
+  console.log(self.userId)
+  const loginusersdata=users.filter((item)=>item._id===self.userId)
+  console.log(loginusersdata)
+  const followerIds = loginusersdata[0]?.followers || [];
+  console.log(followerIds)
   const [activeTab, setActiveTab] = useState("forYou");
   const dispatch = useDispatch();
-  // console.log(tweett);
+  // console.log(users);
 
   useEffect(
     (userId) => {
@@ -43,7 +49,6 @@ function Homepage({ toggleCardPosition }) {
       dispatch(getuserTweet());
       dispatch(getAllUsers());
       dispatch(followUser());
-      dispatch(unfollowUser(userId));
     },
     [dispatch]
   );
@@ -88,7 +93,7 @@ function Homepage({ toggleCardPosition }) {
       >
         {allTweetsWithProfiles.map((item) => {
           const authorUser = users.find((user) => user._id === item.author._id);
-          console.log(authorUser.avatar)
+          // console.log(authorUser.avatar)
           return (
             <div className="show-tweets" key={item._id}>
               <div className="user-image">
@@ -132,12 +137,12 @@ function Homepage({ toggleCardPosition }) {
         style={{ display: activeTab === "following" ? "block" : "none" }}
       >
         {timelineTweets
-          .filter((item) => users2.includes(item.author._id)) // Filter based on followed users
+          .filter((item) =>followerIds.includes(item.author._id)) // Filter based on followed users
           .map((item) => {
             const authorUser = users.find(
               (user) => user._id === item.author._id
-            ); // Find the corresponding user object
-            // console.log(authorUser)
+              ); // Find the corresponding user object
+              console.log(authorUser)
             return (
               <div className="show-tweets">
                 <div className="user-image">
