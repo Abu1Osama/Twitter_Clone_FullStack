@@ -31,7 +31,7 @@ function Messages({ setCurrentindex }) {
 
   const dispatch = useDispatch();
 
-  const socket = socketIOClient("ws://twitterclone-abu1osama.vercel.app"); // Replace with your server URL
+  const socket = socketIOClient("https://twitterclone-abu1osama.vercel.app"); // Replace with your server URL
 
 
   useEffect(() => {
