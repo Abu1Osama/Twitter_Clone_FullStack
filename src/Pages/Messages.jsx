@@ -8,6 +8,7 @@ import {
   receiveChatMessages,
   sendChatMessage,
 } from "../Redux/MessageRedux/action";
+import socketIOClient from "socket.io-client";
 
 function Messages({ setCurrentindex }) {
   const goBack = () => {
@@ -17,14 +18,35 @@ function Messages({ setCurrentindex }) {
   const [message, setMessage] = useState("");
   const loggedInUserId = useSelector((state) => state.auth.userId);
   const users = useSelector((state) => state.user.users);
-  console.log(users);
   const [selectedUserId, setSelectedUserId] = useState(null);
-  const [selectedUser, setSelectedUser] = useState(null);
-  const [selectedUserMessages, setSelectedUserMessages] = useState([]);
-  console.log(loggedInUserId);
-  const chat = useSelector((state) => state.messages);
-  console.log(chat);
+  const [filteredMessages, setFilteredMessages] = useState([]);
+
+  const selectedUserMessages = useSelector(
+    (state) => state.messages.messages
+  );
+
+  const selectedUser = useSelector((state) =>
+    state.user.users.find((user) => user._id === selectedUserId)
+  );
+
   const dispatch = useDispatch();
+
+  const socket = socketIOClient("https://twitterclone-abu1osama.vercel.app");
+
+  useEffect(() => {
+    socket.on("chatMessage", (message) => {
+      console.log("Received message:", message);
+      dispatch(receiveChatMessages(message));
+    });
+
+    if (selectedUserId) {
+      dispatch(receiveChatMessages(selectedUserId));
+    }
+
+    return () => {
+      socket.disconnect();
+    };
+  }, [dispatch, selectedUserId]);
 
   const handleSendMessage = () => {
     if (message.trim() !== "") {
@@ -33,51 +55,29 @@ function Messages({ setCurrentindex }) {
         recipient: selectedUserId,
         content: message,
       };
-      console.log(messageData);
+
+      socket.emit("chatMessage", messageData);
       dispatch(sendChatMessage(messageData));
+
       setMessage("");
     }
   };
 
   const handleUserSelection = (userId) => {
     setSelectedUserId(userId);
-
-    const selectedUser = users.find((user) => user._id === userId);
-    setSelectedUser(selectedUser);
-    console.log(selectedUser);
-
-    if (userId) {
-      dispatch(receiveChatMessages(userId));
-    }
+    dispatch(receiveChatMessages(userId));
   };
-  // useEffect(() => {
-  //   const messagesForSelectedUser = chat.messages.filter(
-  //     (msg) => msg.sender === selectedUserId || msg.recipient === selectedUserId
-  //   );
 
-  //   messagesForSelectedUser.sort(
-  //     (a, b) => new Date(a.timestamp) - new Date(b.timestamp)
-  //   );
-
-  //   setSelectedUserMessages(messagesForSelectedUser);
-  // }, [chat, selectedUserId]);
-
+  // Filter messages based on sender and recipient
   useEffect(() => {
-    // Filter chat messages for the selected user and logged-in user
-    const messagesForSelectedUser = chat.messages.filter(
+    const filtered = selectedUserMessages.filter(
       (msg) =>
         (msg.sender === loggedInUserId && msg.recipient === selectedUserId) ||
         (msg.sender === selectedUserId && msg.recipient === loggedInUserId)
     );
-  
-    // Sort the messages by timestamp (you can customize the sorting logic)
-    messagesForSelectedUser.sort((a, b) =>
-      new Date(a.timestamp) - new Date(b.timestamp)
-    );
-  
-    setSelectedUserMessages(messagesForSelectedUser);
-  }, [chat, selectedUserId, loggedInUserId]);
-  
+    setFilteredMessages(filtered);
+  }, [selectedUserMessages, loggedInUserId, selectedUserId]);
+
   return (
     <div className="Message" id="Message">
       <div className="top">
@@ -99,7 +99,7 @@ function Messages({ setCurrentindex }) {
             </li>
           ))}
       </div>
-      {selectedUser && (
+      {selectedUserId && (
         <div className="chat-section">
           <div className="chat-header">
             <div className="chatter-avatar">
@@ -114,17 +114,21 @@ function Messages({ setCurrentindex }) {
             </div>
           </div>
           <div className="chat-display">
-            {selectedUserMessages.map((msg, index) => (
-              <div
-                key={index}
-                className={`message ${
-                  msg.sender === loggedInUserId ? "sent" : "received"
-                }`}
-              >
-                <p>{msg.content}</p>
-                <small>{new Date(msg.timestamp).toLocaleTimeString()}</small>
-              </div>
-            ))}
+            {filteredMessages.length > 0 ? (
+              filteredMessages.map((msg) => (
+                <div
+                  key={msg._id}
+                  className={`message ${
+                    msg.sender === loggedInUserId ? "sent" : "received"
+                  }`}
+                >
+                  <p>{msg.content}</p>
+                  <small>{new Date(msg.timestamp).toLocaleTimeString()}</small>
+                </div>
+              ))
+            ) : (
+              <p>No messages available.</p>
+            )}
           </div>
           <div className="chat-input">
             <input
