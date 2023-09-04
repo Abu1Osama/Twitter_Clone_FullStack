@@ -50,18 +50,34 @@ function Messages({ setCurrentindex }) {
       dispatch(receiveChatMessages(userId));
     }
   };
+  // useEffect(() => {
+  //   const messagesForSelectedUser = chat.messages.filter(
+  //     (msg) => msg.sender === selectedUserId || msg.recipient === selectedUserId
+  //   );
+
+  //   messagesForSelectedUser.sort(
+  //     (a, b) => new Date(a.timestamp) - new Date(b.timestamp)
+  //   );
+
+  //   setSelectedUserMessages(messagesForSelectedUser);
+  // }, [chat, selectedUserId]);
+
   useEffect(() => {
+    // Filter chat messages for the selected user and logged-in user
     const messagesForSelectedUser = chat.messages.filter(
-      (msg) => msg.sender === selectedUserId || msg.recipient === selectedUserId
+      (msg) =>
+        (msg.sender === loggedInUserId && msg.recipient === selectedUserId) ||
+        (msg.sender === selectedUserId && msg.recipient === loggedInUserId)
     );
-
-    messagesForSelectedUser.sort(
-      (a, b) => new Date(a.timestamp) - new Date(b.timestamp)
+  
+    // Sort the messages by timestamp (you can customize the sorting logic)
+    messagesForSelectedUser.sort((a, b) =>
+      new Date(a.timestamp) - new Date(b.timestamp)
     );
-
+  
     setSelectedUserMessages(messagesForSelectedUser);
-  }, [chat, selectedUserId]);
-
+  }, [chat, selectedUserId, loggedInUserId]);
+  
   return (
     <div className="Message" id="Message">
       <div className="top">

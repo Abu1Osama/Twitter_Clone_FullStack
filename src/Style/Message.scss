@@ -51,22 +51,23 @@
       flex-direction: column;
       gap: 10px;
       .message {
-        .sent {
-          background-color: #007bff;
-          color: white;
-          align-self: flex-end;
-          border-radius: 10px;
-          padding: 10px;
-          max-width: 70%;
-        }
-        .received {
-          background-color: #f0f0f0;
-          color: #333;
-          align-self: flex-start;
-          border-radius: 10px;
-          padding: 10px;
-          max-width: 70%;
-        }
+        
+      }
+      .sent {
+        background-color: #007bff;
+        color: white;
+        align-self: flex-end;
+        border-radius: 10px;
+        padding: 10px;
+        max-width: 70%;
+      }
+      .received {
+        background-color: #f0f0f0;
+        color: #333;
+        align-self: flex-start;
+        border-radius: 10px;
+        padding: 10px;
+        max-width: 70%;
       }
     }
     .chat-input {
