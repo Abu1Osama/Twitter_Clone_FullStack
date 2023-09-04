@@ -119,6 +119,16 @@
             border-radius: 16px;
           }
         }
+        .response-user{
+          display: flex;
+          justify-content: space-between;
+          padding: 5px 20px;
+          i{
+            cursor: pointer;
+            font-size: 20px;
+            color:#536471;
+          }
+        }
       }
     }
    

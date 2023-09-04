@@ -46,8 +46,13 @@ function Sidebar() {
   const [currentindex, setCurrentindex] = useState(0);
   const [currentindex2, setCurrentindex2] = useState(0);
   const [currentindex3, setCurrentindex3] = useState(0);
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+  const forceUpdate = React.useReducer((bool) => !bool, false)[1];
+
   const loggedInUser = useSelector((state) => state.auth);
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state) => state.user.userwithid);
+
+  const followersCount = user && user.followers ? user.followers.length : 0;
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -284,32 +289,56 @@ function Sidebar() {
     setCurrentindex3(index);
   };
 
-  const screenWidth = window.innerWidth;
+
+
+  //   const handleResize = () => {
+  //     const newScreenWidth = window.innerWidth;
+  //     if (newScreenWidth <= 480) {
+  //       setCurrentindex2((currentindex) =>
+  //         Math.min(currentindex, chotaPidda2.length - 1)
+  //       );
+  //     } else if (newScreenWidth > 480 && newScreenWidth <= 901) {
+  //       setCurrentindex3((currentindex) =>
+  //         Math.min(currentindex, chotaPidda3.length - 1)
+  //       );
+  //     } else {
+  //       setCurrentindex((currentindex) =>
+  //         Math.min(currentindex, chotaPidda.length - 1)
+  //       );
+  //     }
+  //   };
+
+  //   window.addEventListener("resize", handleResize);
+
+  //   return () => {
+  //     window.removeEventListener("resize", handleResize);
+  //   };
+  // }, [chotaPidda, chotaPidda2, chotaPidda3]);
 
   useEffect(() => {
     const handleResize = () => {
-      const newScreenWidth = window.innerWidth;
-      if (newScreenWidth <= 480) {
-        setCurrentindex2((currentindex) =>
-          Math.min(currentindex, chotaPidda2.length - 1)
-        );
-      } else if (newScreenWidth > 480 && newScreenWidth <= 901) {
-        setCurrentindex3((currentindex) =>
-          Math.min(currentindex, chotaPidda3.length - 1)
-        );
-      } else {
-        setCurrentindex((currentindex) =>
-          Math.min(currentindex, chotaPidda.length - 1)
-        );
-      }
+      setScreenWidth(window.innerWidth);
+      forceUpdate()
+      console.log("Screen width updated:", window.innerWidth);
     };
-
+  
     window.addEventListener("resize", handleResize);
-
+  
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, [chotaPidda, chotaPidda2, chotaPidda3]);
+  }, []);
+
+  useEffect(() => {
+    if (screenWidth <= 480) {
+      setItemsToRender(chotaPidda2);
+    } else if (screenWidth <= 901) {
+      setItemsToRender(chotaPidda3);
+    } else {
+      setItemsToRender(chotaPidda);
+    }
+  }, [screenWidth]);
+ 
 
   return (
     <div
@@ -361,11 +390,11 @@ function Sidebar() {
               <div className="user-data-b">
                 <span>
                   {" "}
-                  <strong>{user.followers.length}</strong> Following
+                  <strong>{followersCount}</strong> Following
                 </span>
                 <span>
                   {" "}
-                  <strong>{user.followers.length}</strong> Followers
+                  <strong>{followersCount}</strong> Followers
                 </span>
               </div>
             </div>

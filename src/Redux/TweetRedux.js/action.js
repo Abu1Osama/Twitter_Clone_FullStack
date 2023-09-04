@@ -2,6 +2,7 @@
 import axios from "axios";
 import * as tweetActionTypes from "../ActionType";
 import { getData } from "../../Utilities/Localstorage/ls";
+import { toast } from "react-hot-toast";
 
 export const createTweetSuccess = (tweet) => ({
   type: tweetActionTypes.CREATE_TWEET_SUCCESS,
@@ -78,28 +79,6 @@ export const createTweet =(content, formData) => async (dispatch) => {
       dispatch(createTweetFailure(error.response.data.error));
     }
   };
-
-// export const getTweet = (tweetId) => async (dispatch) => {
-//   try {
-//     const token=   localStorage.getItem("token")
-//     const headers = {
-//       Authorization: `Bearer ${token}`,
-//     };
-
-//     const response = await axios.get(
-//       `https://twitter-clone-8kdy.onrender.com/tweets/${tweetId}`,
-//       { headers }
-//     );
-   
-//     dispatch(getTweetSuccess(response.data));
-//   } catch (error) {
-//     console.log(error.response.data.error)
-//     dispatch(getTweetFailure(error.response.data.error));
-//   }
-// };
-
-
-
 export const getuserTweet = () => async (dispatch) => {
   try {
     const headers = {
@@ -170,18 +149,28 @@ export const getTimeline = () => async (dispatch) => {
   }
 };
 
-// export const deleteTweet = (tweetId) => async (dispatch) => {
-//   try {
-//     const { token } = getState().auth; // Get the token from the auth state
-//     const headers = {
-//       Authorization: `Bearer ${token}`, // Pass the token in the Authorization header
-//     };
-//     await axios.delete(
-//       `https://twitter-clone-8kdy.onrender.com/tweets/${tweetId}/delete`,
-//       { headers }
-//     );
-//     dispatch(deleteTweetSuccess());
-//   } catch (error) {
-//     dispatch(deleteTweetFailure(error.response.data.error));
-//   }
-// };
+export const deleteTweet = (tweetId) => async (dispatch) => {
+  try {
+   
+    const headers = {
+      Authorization: `Bearer ${getData("token")}`,
+    };
+
+    await axios.delete(
+      `https://twitter-clone-8kdy.onrender.com/tweets/${tweetId}/delete`,
+      { headers }
+    );
+    dispatch(deleteTweetSuccess());
+    toast.success("Post Deleted successfully!", {
+      style: {
+        borderRadius: "50px",
+        background: "#989898",
+        color: "#ffffff",
+        padding: "1rem 1.5rem",
+        fontWeight: "600",
+      },
+    });
+  } catch (error) {
+    dispatch(deleteTweetFailure(error.response.data.error));
+  }
+};

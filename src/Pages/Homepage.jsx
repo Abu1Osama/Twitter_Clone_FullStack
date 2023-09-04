@@ -24,20 +24,20 @@ function Homepage({ toggleCardPosition }) {
   let { allTweetsWithProfiles, timelineTweets } = useSelector(
     (store) => store.tweet
   );
-  console.log(timelineTweets)
+  // console.log(timelineTweets)
   const togglePostPopup = () => {
     setIsPostPopupOpen(!isPostPopupOpen);
   };
   // console.log(timelineTweets)
   const users = useSelector((state) => state.user.users);
   const users2 = useSelector((state) => state.user.userwithid);
-  console.log(users)
+  // console.log(users)
   const self = useSelector((state) => state.auth);
-  console.log(self.userId)
+  // console.log(self.userId)
   const loginusersdata=users.filter((item)=>item._id===self.userId)
-  console.log(loginusersdata)
+  // console.log(loginusersdata)
   const followerIds = loginusersdata[0]?.followers || [];
-  console.log(followerIds)
+  
   const [activeTab, setActiveTab] = useState("forYou");
   const dispatch = useDispatch();
   // console.log(users);
@@ -125,6 +125,23 @@ function Homepage({ toggleCardPosition }) {
                     />
                   )}
                 </div>
+                <div className="response-user">
+                              <i
+                                class="fa-regular fa-comment"
+                              ></i>
+                              <i
+                                class="fa-solid fa-retweet"
+                              ></i>
+                              <i
+                                class="fa-regular fa-heart"
+                              ></i>
+                              <i
+                                class="fa-solid fa-chart-simple"
+                              ></i>
+                              <i
+                                class="fa-solid fa-arrow-up-from-bracket"
+                              ></i>
+                            </div>
               </div>
             </div>
           );
@@ -142,7 +159,7 @@ function Homepage({ toggleCardPosition }) {
             const authorUser = users.find(
               (user) => user._id === item.author._id
               ); // Find the corresponding user object
-              console.log(authorUser)
+              // console.log(authorUser)
             return (
               <div className="show-tweets">
                 <div className="user-image">

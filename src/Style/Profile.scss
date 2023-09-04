@@ -1,17 +1,27 @@
 #profile.profile {
+  height: 100vh;
+  overflow-y: auto;
+  &::-webkit-scrollbar {
+    width: 0;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: transparent;
+  }
   .top {
     display: flex;
     align-items: center;
     gap: 50px;
     padding: 10px;
-    border: 1px solid red;
     position: sticky;
     background-color: rgba(
       255,
       255,
       255,
       0.8
-    ); /* Semi-transparent white background */
+    ); 
     backdrop-filter: blur(10px); /* Apply a blur effect to the background */
     width: 100%;
     top: 0;
@@ -24,7 +34,7 @@
     .user-image {
       border-radius: 50%;
       position: absolute;
-      top: 70%;
+      top: 64%;
       transform: translateX(-50%) translateY(-50%);
       left: 70px;
       // left: 50%;
@@ -93,6 +103,93 @@
           }
           &:hover::after {
             opacity: 1;
+          }
+        }
+      }
+    }
+  }
+  .profile-tab{
+    .tab-card{
+display: flex;
+justify-content: space-between;
+padding: 10px;
+span{
+  cursor: pointer;
+}
+    }
+  }
+  .tab-card-data{
+    .tweets{
+      .show-tweets {
+        display: grid;
+        grid-template-columns: 15% 85%;
+        // justify-content: space-between;
+        border-bottom: 1px solid rgb(230, 224, 224);
+        padding: 4px;
+        border: 1px solid rgb(236, 236, 236);
+  
+        .user-image {
+          img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+          }
+        }
+        .user-data {
+          display: grid;
+          gap: 10px;
+          .top-data-profile{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            .private {
+              display: flex;
+              // justify-content: space-between;
+              gap: 10px;
+              font-style: inherit;
+              p {
+                color: gray;
+              }
+            }
+            .action{
+              cursor: pointer;
+              position: relative;
+              .after-action{
+                position: absolute;
+                // width: 100%;
+                top: -40px;
+                left: -80px;
+                background-color:white;
+                padding:  8px 20px;
+                border-radius: 9999px;
+                color: black;
+                border: 1px solid rgb(228, 228, 228);
+                font-weight: 700;
+              }
+            }
+          }
+          .bottom {
+            p {
+              // font-size: 20px;
+              margin-bottom: 10px;
+            }
+            img {
+              width: 90%;
+  
+              height: 350px;
+              border-radius: 16px;
+            }
+          }
+          .response{
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 20px;
+            i{
+              cursor: pointer;
+              font-size: 20px;
+            }
           }
         }
       }
