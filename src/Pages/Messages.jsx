@@ -3,58 +3,55 @@ import "../Style/Message.scss";
 import "@fortawesome/fontawesome-free/css/all.css";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  receiveChatMessages,
-  sendChatMessage,
-} from "../Redux/MessageRedux/action";
 import socketIOClient from "socket.io-client";
+import { useSelector } from "react-redux";
 
 function Messages({ setCurrentindex }) {
+  const [selectedUserId, setSelectedUserId] = useState(null);
   const goBack = () => {
     setCurrentindex(0);
   };
-
+  const selectedUser = useSelector((state) => {
+    // Replace 'yourUserReducer' with the actual name of your user reducer
+    return state.user.users.find((user) => user._id === selectedUserId);
+  });
   const [message, setMessage] = useState("");
-  const loggedInUserId = useSelector((state) => state.auth.userId);
-  const users = useSelector((state) => state.user.users);
-  const [selectedUserId, setSelectedUserId] = useState(null);
+  const loggedInUserId = useSelector((state)=>state.auth.userId); // Replace with your actual user ID
+  const users = useSelector((state) => state.user.users); // Retrieve users from Redux
   const [filteredMessages, setFilteredMessages] = useState([]);
-
-  const selectedUserMessages = useSelector(
-    (state) => state.messages.messages
-  );
-
-  const selectedUser = useSelector((state) =>
-    state.user.users.find((user) => user._id === selectedUserId)
-  );
-
-  const dispatch = useDispatch();
-
   const socket = socketIOClient("https://twitterclone-abu1osama.vercel.app"); // Replace with your server URL
 
-
   useEffect(() => {
-    // Establish WebSocket connection and set up event listeners
+    // Initialize WebSocket connection when the component mounts
     socket.on("connect", () => {
       console.log("Connected to WebSocket.");
     });
-  
+
     socket.on("chatMessage", (message) => {
       console.log("Received message:", message);
-      dispatch(receiveChatMessages(message));
+      handleReceivedMessage(message);
     });
-  
+
     socket.on("disconnect", () => {
       console.log("Disconnected from WebSocket.");
     });
-  
+
     return () => {
       // Clean up WebSocket connection when the component unmounts
       socket.disconnect();
     };
-  }, [dispatch]);
-  
+  }, []);
+
+  const handleReceivedMessage = (message) => {
+    // Update the selectedUserMessages state with the received message
+    setFilteredMessages((prevMessages) => [...prevMessages, message]);
+  };
+ // Function to format a timestamp to a readable date and time
+const formatTimestamp = (timestamp) => {
+  const options = { year: "numeric", month: "numeric", day: "numeric", hour: "numeric", minute: "numeric" };
+  return new Date(timestamp).toLocaleDateString(undefined, options);
+};
+
 
   const handleSendMessage = () => {
     if (message.trim() !== "") {
@@ -67,8 +64,8 @@ function Messages({ setCurrentindex }) {
       // Emit the message to the server via WebSocket
       socket.emit("chatMessage", messageData);
 
-      // Dispatch the message to Redux
-      dispatch(sendChatMessage(messageData));
+      // Update the selectedUserMessages state with the sent message
+      handleReceivedMessage(messageData);
 
       setMessage("");
     }
@@ -76,18 +73,9 @@ function Messages({ setCurrentindex }) {
 
   const handleUserSelection = (userId) => {
     setSelectedUserId(userId);
-    dispatch(receiveChatMessages(userId));
+    // Clear the selectedUserMessages state when a new user is selected
+    setFilteredMessages([]);
   };
-
-  useEffect(() => {
-    // Filter messages based on sender and recipient
-    const filtered = selectedUserMessages.filter(
-      (msg) =>
-        (msg.sender === loggedInUserId && msg.recipient === selectedUserId) ||
-        (msg.sender === selectedUserId && msg.recipient === loggedInUserId)
-    );
-    setFilteredMessages(filtered);
-  }, [selectedUserMessages, loggedInUserId, selectedUserId]);
 
   return (
     <div className="Message" id="Message">
@@ -110,11 +98,11 @@ function Messages({ setCurrentindex }) {
             </li>
           ))}
       </div>
-      {selectedUserId && (
+      {selectedUserId &&   (
         <div className="chat-section">
           <div className="chat-header">
             <div className="chatter-avatar">
-              {/* Replace with your avatar URL */}
+           
               <img
                 src={`https://twitter-clone-8kdy.onrender.com/avatars/${selectedUser.avatar}`}
                 alt="sam"
@@ -127,15 +115,15 @@ function Messages({ setCurrentindex }) {
           </div>
           <div className="chat-display">
             {filteredMessages.length > 0 ? (
-              filteredMessages.map((msg) => (
+              filteredMessages.map((msg, index) => (
                 <div
-                  key={msg._id}
+                  key={index}
                   className={`message ${
                     msg.sender === loggedInUserId ? "sent" : "received"
                   }`}
                 >
                   <p>{msg.content}</p>
-                  <small>{new Date(msg.timestamp).toLocaleTimeString()}</small>
+                  {msg.timestamp ? formatTimestamp(msg.timestamp) : "Timestamp not available"}
                 </div>
               ))
             ) : (
@@ -158,4 +146,3 @@ function Messages({ setCurrentindex }) {
 }
 
 export default Messages;
-
