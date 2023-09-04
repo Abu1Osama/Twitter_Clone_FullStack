@@ -31,22 +31,28 @@ function Messages({ setCurrentindex }) {
 
   const dispatch = useDispatch();
 
-  const socket = socketIOClient("https://twitterclone-abu1osama.vercel.app");
+  const socket = socketIOClient("https://twitterclone-abu1osama.vercel.app"); // Replace with your server URL
 
   useEffect(() => {
+    // Establish WebSocket connection and set up event listeners
+    socket.on("connect", () => {
+      console.log("Connected to WebSocket.");
+    });
+
     socket.on("chatMessage", (message) => {
       console.log("Received message:", message);
       dispatch(receiveChatMessages(message));
     });
 
-    if (selectedUserId) {
-      dispatch(receiveChatMessages(selectedUserId));
-    }
+    socket.on("disconnect", () => {
+      console.log("Disconnected from WebSocket.");
+    });
 
     return () => {
+      // Clean up WebSocket connection when the component unmounts
       socket.disconnect();
     };
-  }, [dispatch, selectedUserId]);
+  }, [dispatch]);
 
   const handleSendMessage = () => {
     if (message.trim() !== "") {
@@ -56,7 +62,10 @@ function Messages({ setCurrentindex }) {
         content: message,
       };
 
+      // Emit the message to the server via WebSocket
       socket.emit("chatMessage", messageData);
+
+      // Dispatch the message to Redux
       dispatch(sendChatMessage(messageData));
 
       setMessage("");
@@ -68,8 +77,8 @@ function Messages({ setCurrentindex }) {
     dispatch(receiveChatMessages(userId));
   };
 
-  // Filter messages based on sender and recipient
   useEffect(() => {
+    // Filter messages based on sender and recipient
     const filtered = selectedUserMessages.filter(
       (msg) =>
         (msg.sender === loggedInUserId && msg.recipient === selectedUserId) ||
@@ -103,6 +112,7 @@ function Messages({ setCurrentindex }) {
         <div className="chat-section">
           <div className="chat-header">
             <div className="chatter-avatar">
+              {/* Replace with your avatar URL */}
               <img
                 src={`https://twitter-clone-8kdy.onrender.com/avatars/${selectedUser.avatar}`}
                 alt="sam"
@@ -146,3 +156,4 @@ function Messages({ setCurrentindex }) {
 }
 
 export default Messages;
+
