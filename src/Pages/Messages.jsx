@@ -31,28 +31,30 @@ function Messages({ setCurrentindex }) {
 
   const dispatch = useDispatch();
 
-  const socket = socketIOClient("https://twitterclone-abu1osama.vercel.app"); // Replace with your server URL
+  const socket = socketIOClient("ws://twitterclone-abu1osama.vercel.app"); // Replace with your server URL
+
 
   useEffect(() => {
     // Establish WebSocket connection and set up event listeners
     socket.on("connect", () => {
       console.log("Connected to WebSocket.");
     });
-
+  
     socket.on("chatMessage", (message) => {
       console.log("Received message:", message);
       dispatch(receiveChatMessages(message));
     });
-
+  
     socket.on("disconnect", () => {
       console.log("Disconnected from WebSocket.");
     });
-
+  
     return () => {
       // Clean up WebSocket connection when the component unmounts
       socket.disconnect();
     };
   }, [dispatch]);
+  
 
   const handleSendMessage = () => {
     if (message.trim() !== "") {
