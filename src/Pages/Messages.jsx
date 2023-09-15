@@ -22,7 +22,7 @@ function Messages({ setCurrentindex }) {
   // const ws = new WebSocket("ws://localhost:3000");
   const io=require("socket.io-client")
   
-  const socket = io("https://twitterclone-abu1osama.vercel.app"); // Replace with your server URL
+  const socket = io("https://twitter-clone-8kdy.onrender.com"); // Replace with your server URL
   useEffect(() => {
     console.log("Attempting to connect to WebSocket...");
     
