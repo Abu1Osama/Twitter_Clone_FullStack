@@ -19,28 +19,35 @@ function Messages({ setCurrentindex }) {
   const loggedInUserId = useSelector((state)=>state.auth.userId); // Replace with your actual user ID
   const users = useSelector((state) => state.user.users); // Retrieve users from Redux
   const [filteredMessages, setFilteredMessages] = useState([]);
-  const socket = socketIOClient("https://twitterclone-abu1osama.vercel.app"); // Replace with your server URL
-
+  // const ws = new WebSocket("ws://localhost:3000");
+  const io=require("socket.io-client")
+  
+  const socket = io("ws://localhost:3000"); // Replace with your server URL
   useEffect(() => {
-    // Initialize WebSocket connection when the component mounts
+    console.log("Attempting to connect to WebSocket...");
+    
+    
     socket.on("connect", () => {
       console.log("Connected to WebSocket.");
     });
-
+  
     socket.on("chatMessage", (message) => {
       console.log("Received message:", message);
       handleReceivedMessage(message);
     });
-
+  
     socket.on("disconnect", () => {
       console.log("Disconnected from WebSocket.");
     });
-
+  
     return () => {
       // Clean up WebSocket connection when the component unmounts
       socket.disconnect();
+      console.log("WebSocket disconnected.");
     };
   }, []);
+  
+  
 
   const handleReceivedMessage = (message) => {
     // Update the selectedUserMessages state with the received message

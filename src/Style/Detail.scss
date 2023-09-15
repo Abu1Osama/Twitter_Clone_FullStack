@@ -1,0 +1,37 @@
+#detail.detail{
+    margin-top: 2px;
+.search{
+    position: relative;
+input{
+    width: 100%;
+    border-radius: 9999px;
+   background:#eff3f4;
+   padding: 15px;
+   border: none;
+   outline: red;
+    &::placeholder{
+        padding-left: 30px;
+    }
+}
+i{
+    position: absolute;
+    top: 14px;
+    left: 15px;
+    // width: 100px;
+    color: gray ;
+}
+}
+}
+
+@media only screen and (max-width: 480px) {
+    #detail.detail{
+        display: none;
+      
+    }
+  }
+  @media only screen and (max-width: 901px) {
+      #detail.detail {
+        display: none;
+        
+    }
+  }

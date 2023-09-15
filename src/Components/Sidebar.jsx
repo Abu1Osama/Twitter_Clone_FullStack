@@ -44,7 +44,7 @@ import List from "../Pages/List";
 
 function Sidebar() {
   const [currentindex, setCurrentindex] = useState(0);
-  const [currentindex2, setCurrentindex2] = useState(0);
+  const [currentindex2, setCurrentindex2] = useState(5);
   const [currentindex3, setCurrentindex3] = useState(0);
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const forceUpdate = React.useReducer((bool) => !bool, false)[1];
@@ -339,7 +339,10 @@ function Sidebar() {
     }
   }, [screenWidth]);
  
-
+const opentheprofile=()=>{
+  setCurrentindex2(0)
+  setIsCardVisible(false);
+}
   return (
     <div
       id="sidebar"
@@ -376,7 +379,7 @@ function Sidebar() {
         </div>
         <div className="user">
           <div className="left">
-            <div className="user-img logo2">
+            <div onClick={opentheprofile} className="user-img logo2">
               <img
                 src={`https://twitter-clone-8kdy.onrender.com/avatars/${loggedInUser.avatar}`}
                 alt=""
@@ -443,6 +446,7 @@ function Sidebar() {
       </div>
       <div onClick={closesidebar} className="main-contain">
         {screenWidth <= 480 ? (
+          
           // For small screens
           currentindex2 == 0 ? (
             <Profile

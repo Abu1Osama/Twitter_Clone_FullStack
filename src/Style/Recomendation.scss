@@ -1,28 +1,32 @@
 #mine.mine {
   .card-main {
-    border-radius: 10px;
-    background: rgb(238, 238, 238);
-    background: #f7f9f9;
+    border-radius: 16px;
+    background:#eff3f4;
     margin-top: 20px;
+    padding: 10px;
     h2 {
       padding: 10px;
     }
     .main-data {
       display: grid;
       grid-template-columns: 20% 50% 30%;
-      padding: 5px;
+      justify-content: space-between;
+      padding: 10px;
       align-items: center;
       cursor: pointer;
       margin-top: 10px;
-
+.btn{
+  display: flex;
+}
       button {
-        width: 100%;
         border-radius: 9999px;
-        padding: 7px;
+        padding: 10px 20px;
         cursor: pointer;
         background: #000;
         color: white;
         font-weight: bold;
+      text-align: end;
+      margin-left: auto;
       }
       img {
         width: 60px;
@@ -35,20 +39,30 @@
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
-          width: max;
+          width: max-content;
+          color: gray;
         }
       }
+    }
+    .showmore{
+      border: none;
+      padding: 5px;
+      color: rgb(29, 155, 240);
+      font-weight: bold;
+      cursor: pointer;
+      background: none;
+      margin: 20px;
     }
   }
 }
 
 @media only screen and (max-width: 480px) {
   #mine.mine {
-    display: none;
+    // display: none;
   }
 }
 @media only screen and (max-width: 901px) {
   #mine.mine {
-    display: none;
+    // display: none;
   }
 }

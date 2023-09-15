@@ -11,9 +11,11 @@ import { getTimeline } from "../Redux/TweetRedux.js/action";
 function Recomendation() {
   const users = useSelector((state) => state.user.users);
   const followedUsers = useSelector((state) => state.user.followers);
+  console.log("abc",followedUsers)
   const userId = useSelector((state) => state.auth.userId);
   const dispatch = useDispatch();
   const [buttonText, setButtonText] = useState({});
+  const [showAllUsers, setShowAllUsers] = useState(false);
 
   useEffect(() => {
     dispatch(getAllUsers());
@@ -21,7 +23,6 @@ function Recomendation() {
   }, [dispatch]);
 
   useEffect(() => {
-    // Load button text from localStorage
     const savedButtonText = JSON.parse(localStorage.getItem("buttonText")) || {};
     setButtonText(savedButtonText);
   }, []);
@@ -31,7 +32,6 @@ function Recomendation() {
 
     if (isCurrentlyFollowed) {
       dispatch(unfollowUser(id));
-      // Remove the button text from state and localStorage when unfollowed
       const updatedButtonText = { ...buttonText };
       delete updatedButtonText[id];
       setButtonText(updatedButtonText);
@@ -41,18 +41,20 @@ function Recomendation() {
     }
 
     dispatch(getTimeline());
-    
-    // Save button text to localStorage
+
     localStorage.setItem("buttonText", JSON.stringify(buttonText));
   };
 
   const filteredUsers = users.filter((user) => user._id !== userId);
+  const displayedUsers = showAllUsers
+    ? filteredUsers
+    : filteredUsers.slice(0, 3);
 
   return (
     <div className="mine" id="mine">
       <div className="card-main">
         <h2>Who to follow</h2>
-        {filteredUsers.map((item) => (
+        {displayedUsers.map((item) => (
           <div className="main-data" key={item._id}>
             <div className="image">
               <img
@@ -62,7 +64,7 @@ function Recomendation() {
               />
             </div>
             <div className="content">
-              <p>{item.name}</p>
+              <strong>{item.name}</strong>
               <p>{item.username}</p>
             </div>
             <div className="btn">
@@ -73,6 +75,9 @@ function Recomendation() {
             </div>
           </div>
         ))}
+        <button className="showmore" onClick={() => setShowAllUsers(!showAllUsers)}>
+          {showAllUsers ? "Show less" : "Show more"}
+        </button>
       </div>
     </div>
   );

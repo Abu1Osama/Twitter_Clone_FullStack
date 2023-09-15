@@ -1,13 +1,13 @@
 import React from "react";
 import Sidebar from "../Components/Sidebar";
-import Recomendation from "./Recomendation";
 import "../Style/Home.scss";
+import Detail from "../Components/Detail";
 
 function Home() {
   return (
     <div id="Home" className="Home">
       <Sidebar />
-      <Recomendation />
+      <Detail/>
     </div>
   );
 }

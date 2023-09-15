@@ -17,6 +17,7 @@ import { fetchUser } from "../Redux/UserRedux/action";
 import { deleteTweet, getuserTweet } from "../Redux/TweetRedux.js/action";
 import Editprofile from "./Editprofile";
 import { Link } from "react-router-dom";
+import Recomendation from "../Pages/Recomendation";
 
 function Profile({ setCurrentindex, setCurrentindex2 }) {
   const [profiletabindex, setProfiletabindex] = useState(0);
@@ -162,7 +163,9 @@ function Profile({ setCurrentindex, setCurrentindex2 }) {
           <div className="tab-card">
             {profiletab.map((item, index) => (
               <div
-                className=""
+                className={`tab ${
+                  profiletabindex === index ? "active-tab" : ""
+                }`}
                 onClick={() => {
                   setProfiletabindex(index);
                 }}
@@ -250,10 +253,10 @@ function Profile({ setCurrentindex, setCurrentindex2 }) {
                               ></i>
                             </div>
                           </div>
-                       
                         </div>
                       );
                     })}
+                    <Recomendation/>
                 </div>
               ) : (
                 <div className="no-tweets">
@@ -262,10 +265,127 @@ function Profile({ setCurrentindex, setCurrentindex2 }) {
               )
             ) : profiletabindex == 1 ? (
               <div className="replies">
-                <h1>Replies</h1>
+                {usertweet && usertweet.length > 0 ? (
+                  <div className="tweets">
+                    {usertweet &&
+                      usertweet.map((item) => {
+                        return (
+                          <div className="show-tweets">
+                            <div className="user-image">
+                              <img
+                                src={`https://twitter-clone-8kdy.onrender.com/avatars/${Profile.avatar}`}
+                                alt=""
+                              />
+                            </div>
+                            <div className="user-data">
+                              <div className="top-data-profile">
+                                <div className="private">
+                                  <strong>{user.name}</strong>
+                                  <p>{user.username}</p>
+                                  <p>Aug 21</p>
+                                </div>
+                                <div className="action">
+                                  <FontAwesomeIcon
+                                    onClick={() =>
+                                      handleToggleAfterAction(item._id)
+                                    }
+                                    icon={faEllipsisH}
+                                  />
+
+                                  {activeDeleteTweet === item._id && (
+                                    <div className="after-action">
+                                      <p
+                                        onClick={() =>
+                                          handleDeleteTweet(item._id)
+                                        }
+                                      >
+                                        Delete
+                                      </p>
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                              <div className="bottom">
+                                <p>{item.content}</p>
+                                {item.image && ( 
+                                  <img
+                                    src={
+                                      `https://twitter-clone-8kdy.onrender.com/uploads/` +
+                                      item.image
+                                    }
+                                    alt="sam"
+                                  />
+                                )}
+                              </div>
+                              <div className="response">
+                                <i
+                                  class="fa-regular fa-comment"
+                                  style={{ color: " #a2a8b4" }}
+                                ></i>
+                                <i
+                                  class="fa-solid fa-retweet"
+                                  style={{ color: " #a2a8b4" }}
+                                ></i>
+                                <i
+                                  class="fa-regular fa-heart"
+                                  style={{ color: " #a2a8b4" }}
+                                ></i>
+                                <i
+                                  class="fa-solid fa-chart-simple"
+                                  style={{ color: " #a2a8b4" }}
+                                ></i>
+                                <i
+                                  class="fa-solid fa-arrow-up-from-bracket"
+                                  style={{ color: " #a2a8b4" }}
+                                ></i>
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })}
+                      <Recomendation/>
+                  </div>
+                ) : (
+                  <div className="no-tweets">
+                    <p>No tweets to display.</p>
+                  </div>
+                )}
+              </div>
+            ) : profiletabindex == 2 ? (
+              <div className="Highlight">
+                <div>
+                  <div>
+                    {" "}
+                    <h1>Verified only</h1>
+                  </div>
+                  <div>
+                    <p>
+                      You must be Verified to highlight posts on your profile.
+                    </p>
+                  </div>
+                </div>
+                <div>
+                  <button>Get Verified</button>
+                </div>
+              </div>
+            ) : profiletabindex == 3 ? (
+              <div>
+                <div className="media">
+                  <div className="media-content">
+                    <h1>Lights, camera … attachments!</h1>
+                    <p>
+                      When you post photos or videos, they will show up here.
+                    </p>
+                  </div>
+                </div>
               </div>
             ) : (
-              <div className="likes"></div>
+              <div className="likes">
+                <div className="media-content">
+                  <h1>You don’t have any likes yet</h1>
+                  <p>Tap the heart on any post to show it some love. When you do, it’ll show up here.</p>
+                </div>
+              </div>
             )}
           </div>
         </div>
